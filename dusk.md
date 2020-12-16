@@ -874,6 +874,8 @@ Dusk provides a variety of assertions that you may make against your application
 [assertDontSee](#assert-dont-see)
 [assertSeeIn](#assert-see-in)
 [assertDontSeeIn](#assert-dont-see-in)
+[assertSeeAnythingIn](#assert-see-anything-in)
+[assertSeeNothingIn](#assert-see-nothing-in)
 [assertScript](#assert-script)
 [assertSourceHas](#assert-source-has)
 [assertSourceMissing](#assert-source-missing)
@@ -888,9 +890,9 @@ Dusk provides a variety of assertions that you may make against your application
 [assertSelected](#assert-selected)
 [assertNotSelected](#assert-not-selected)
 [assertSelectHasOptions](#assert-select-has-options)
-[assertSelectMissingOption](#assert-select-missing-option)
 [assertSelectMissingOptions](#assert-select-missing-options)
 [assertSelectHasOption](#assert-select-has-option)
+[assertSelectMissingOption](#assert-select-missing-option)
 [assertValue](#assert-value)
 [assertAttribute](#assert-attribute)
 [assertAriaAttribute](#assert-aria-attribute)
@@ -1114,6 +1116,20 @@ Assert that the given text is not present within the selector:
 
     $browser->assertDontSeeIn($selector, $text);
 
+<a name="assert-see-anything-in"></a>
+#### assertSeeAnythingIn
+
+Assert that any text is present within the selector:
+
+    $browser->assertSeeAnythingIn($selector);
+
+<a name="assert-see-nothing-in"></a>
+#### assertSeeNothingIn
+
+Assert that no text is present within the selector:
+
+    $browser->assertSeeNothingIn($selector);
+
 <a name="assert-script"></a>
 #### assertScript
 
@@ -1213,13 +1229,6 @@ Assert that the given array of values are available to be selected:
 
     $browser->assertSelectHasOptions($field, $values);
 
-<a name="assert-select-missing-option"></a>
-#### assertSelectMissingOption
-
-Assert that the given value is not available to be selected:
-
-    $browser->assertSelectMissingOption($field, $value);
-
 <a name="assert-select-missing-options"></a>
 #### assertSelectMissingOptions
 
@@ -1233,6 +1242,13 @@ Assert that the given array of values are not available to be selected:
 Assert that the given value is available to be selected on the given field:
 
     $browser->assertSelectHasOption($field, $value);
+
+<a name="assert-select-missing-option"></a>
+#### assertSelectMissingOption
+
+Assert that the given value is not available to be selected:
+
+    $browser->assertSelectMissingOption($field, $value);
 
 <a name="assert-value"></a>
 #### assertValue

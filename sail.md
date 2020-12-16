@@ -40,7 +40,7 @@ Laravel Sail is automatically installed with all new Laravel applications so you
 
 If you are interested in using Sail with an existing Laravel application, you may simply install Sail using the Composer package manager. Of course, these steps assume that your existing local development environment allows you to install Composer dependencies:
 
-    composer require laravel/sail
+    composer require laravel/sail --dev
 
 After Sail has been installed, you may run the `sail:install` Artisan command. This command will publish Sail's `docker-compose.yml` file to the root of your application:
 
@@ -203,19 +203,23 @@ The Sail `test` command is equivalent to running the `test` Artisan command:
 
 [Laravel Dusk](/docs/{{version}}/dusk) provides an expressive, easy-to-use browser automation and testing API. Thanks to Sail, you may run these tests without ever installing Selenium or other tools on your local computer. To get started, uncomment the Selenium service in your application's `docker-compose.yml` file:
 
-    selenium:
-        image: 'selenium/standalone-chrome'
-        volumes:
-            - '/dev/shm:/dev/shm'
-        networks:
-            - sail
+```yaml
+selenium:
+    image: 'selenium/standalone-chrome'
+    volumes:
+        - '/dev/shm:/dev/shm'
+    networks:
+        - sail
+```
 
 Next, ensure that the `laravel.test` service in your application's `docker-compose.yml` file has a `depends_on` entry for `selenium`:
 
-        depends_on:
-            - mysql
-            - redis
-            - selenium
+```yaml
+depends_on:
+    - mysql
+    - redis
+    - selenium
+```
 
 Finally, you may run your Dusk test suite by starting Sail and running the `dusk` command:
 
@@ -291,7 +295,7 @@ If you would like to choose the subdomain for your shared site, you may provide 
 Since Sail is just Docker, you are free to customize nearly everything about it. To publish Sail's own Dockerfiles, you may execute the `sail:publish` command:
 
 ```bash
-sail artisan sail:publish
+php artisan sail:publish
 ```
 
 After running this command, the Dockerfiles and other configuration files used by Laravel Sail will be placed within a `docker` directory in your application's root directory. After customizing your Sail installation, you may rebuild your application's containers using the `build` command:
