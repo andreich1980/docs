@@ -388,7 +388,7 @@ Typical Eloquent foreign key conventions will be used when performing the relati
 
     class Project extends Model
     {
-        public function posts()
+        public function deployments()
         {
             return $this->hasManyThrough(
                 Deployment::class,
@@ -1071,7 +1071,7 @@ If you need even more power, you may use the `whereHas` and `orWhereHas` methods
     $posts = Post::whereHas('comments', function (Builder $query) {
         $query->where('content', 'like', 'code%');
     }, '>=', 10)->get();
-    
+
 > {note} Eloquent does not currently support querying for relationship existence across databases. The relationships must exist within the same database.
 
 <a name="querying-relationship-absence"></a>
@@ -1121,7 +1121,7 @@ To query the existence of "morph to" relationships, you may use the `whereHasMor
     // Retrieve comments associated to posts with a title not like code%...
     $comments = Comment::whereDoesntHaveMorph(
         'commentable',
-        Post::class
+        Post::class,
         function (Builder $query) {
             $query->where('title', 'like', 'code%');
         }
@@ -1576,7 +1576,7 @@ You may use the `createMany` method to create multiple related models:
         ['message' => 'Another new comment.'],
     ]);
 
-You may also use the `findOrNew`, `firstOrNew`, `firstOrCreate`, and `updateOrCreate` methods to [create and update models on relationships](https://laravel.com/docs/{{version}}/eloquent#other-creation-methods).
+You may also use the `findOrNew`, `firstOrNew`, `firstOrCreate`, and `updateOrCreate` methods to [create and update models on relationships](https://laravel.com/docs/{{version}}/eloquent#upserts).
 
 > {tip} Before using the `create` method, be sure to review the [mass assignment](/docs/{{version}}/eloquent#mass-assignment) documentation.
 

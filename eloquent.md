@@ -159,6 +159,11 @@ If your model's primary key is not an integer, you should define a protected `$k
         protected $keyType = 'string';
     }
 
+<a name="composite-primary-keys"></a>
+#### "Composite" Primary Keys
+
+Eloquent requires each model to have at least one uniquely identifying "ID" that can serve as its primary key. "Composite" primary keys are not supported by Eloquent models. However, you are free to add additional multi-column, unique indexes to your database tables in addition to the table's uniquely identifying primary key.
+
 <a name="timestamps"></a>
 ### Timestamps
 
@@ -297,7 +302,7 @@ The `refresh` method will re-hydrate the existing model using fresh data from th
 <a name="collections"></a>
 ### Collections
 
-As we have seen, Eloquent methods like `all` and `get` retrieve multiple records from the database. However, these methods do return a plain PHP array. Instead, an instance of `Illuminate\Database\Eloquent\Collection` is returned.
+As we have seen, Eloquent methods like `all` and `get` retrieve multiple records from the database. However, these methods don't return a plain PHP array. Instead, an instance of `Illuminate\Database\Eloquent\Collection` is returned.
 
 The Eloquent `Collection` class extends Laravel's base `Illuminate\Support\Collection` class, which provides a [variety of helpful methods](/docs/{{version}}/collections#available-methods) for interacting with data collections. For example, the `reject` method may be used to remove models from a collection based on the results of an invoked closure:
 
@@ -660,7 +665,7 @@ When assigning JSON columns, each column's mass assignable key must be specified
      *
      * @var array
      */
-    $fillable = [
+    protected $fillable = [
         'options->enabled',
     ];
 
@@ -681,7 +686,7 @@ If you would like to make all of your attributes mass assignable, you may define
 
 Occasionally, you may need to update an existing model or create a new model if no matching model exists. Like the `firstOrCreate` method, the `updateOrCreate` method persists the model, so there's no need to manually call the `save` method.
 
-In the example below, if a flight exists with a `departure` location of `Oakland` and a `destination` location of `San Diego`, it's `price` and `discounted` columns will be updated. If no such flight exists, a new flight will be created which has the attributes resulting from merging the first argument array with the second argument array:
+In the example below, if a flight exists with a `departure` location of `Oakland` and a `destination` location of `San Diego`, its `price` and `discounted` columns will be updated. If no such flight exists, a new flight will be created which has the attributes resulting from merging the first argument array with the second argument array:
 
     $flight = Flight::updateOrCreate(
         ['departure' => 'Oakland', 'destination' => 'San Diego'],
@@ -1074,7 +1079,7 @@ The `is` method is also available when using the `belongsTo`, `hasOne`, `morphTo
 
 Eloquent models dispatch several events, allowing you to hook into the following moments in a model's lifecycle: `retrieved`, `creating`, `created`, `updating`, `updated`, `saving`, `saved`, `deleting`, `deleted`, `restoring`, `restored`, and `replicating`.
 
-The `retrieved` event will dispatch when an existing model is retrieved from the database. When a new model is saved for the first time, the `creating` and `created` events will dispatch. The `updating` / `updated` events will dispatch when an existing model is modified and the `save` method is called. The `saving` / `saved` events will dispatch when a model is created or updated.
+The `retrieved` event will dispatch when an existing model is retrieved from the database. When a new model is saved for the first time, the `creating` and `created` events will dispatch. The `updating` / `updated` events will dispatch when an existing model is modified and the `save` method is called. The `saving` / `saved` events will dispatch when a model is created or updated - even if the model's attributes have not been changed.
 
 To start listening to model events, define a `$dispatchesEvents` property on your Eloquent model. This property maps various points of the Eloquent model's lifecycle to your own [event classes](/docs/{{version}}/events). Each model event class should expect to receive an instance of the affected model via its constructor:
 

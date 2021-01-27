@@ -449,7 +449,7 @@ For example, imagine we are building a "todo" list application. We might define 
 
 <html>
     <head>
-        <title>{{ $title ?? 'Todo Manager' }}
+        <title>{{ $title ?? 'Todo Manager' }}</title>
     </head>
     <body>
         <h1>Todos</h1>
@@ -662,7 +662,7 @@ However, if you are building a package that utilizes Blade components, you will 
      */
     public function boot()
     {
-        Blade::component('package-alert', AlertComponent::class);
+        Blade::component('package-alert', Alert::class);
     }
 
 Once your component has been registered, it may be rendered using its tag alias:
@@ -808,7 +808,7 @@ You may execute this method from your component template by invoking the variabl
         {{ $label }}
     </option>
 
-<a name="using-attributes-slots-wthin-component-class"></a>
+<a name="using-attributes-slots-within-component-class"></a>
 #### Accessing Attributes & Slots Within Component Classes
 
 Blade components also allow you to access the component name, attributes, and slot inside the class's render method. However, in order to access this data, you should return a closure from your component's `render` method. The closure will receive a `$data` array as its only argument. This array will contain several elements that provide information about the component:
@@ -919,7 +919,7 @@ If you would like an attribute other than `class` to have its default value and 
     </div>
 
 <a name="filtering-attributes"></a>
-#### Filtering Attributes
+#### Retrieving & Filtering Attributes
 
 You may filter attributes using the `filter` method. This method accepts a closure which should return `true` if you wish to retain the attribute in the attribute bag:
 
@@ -932,6 +932,16 @@ For convenience, you may use the `whereStartsWith` method to retrieve all attrib
 Using the `first` method, you may render the first attribute in a given attribute bag:
 
     {{ $attributes->whereStartsWith('wire:model')->first() }}
+
+If you would like to check if an attribute is present on the component, you may use the `has` method. This method accepts the attribute name as its only argument and returns a boolean indicating whether or not the attribute is present:
+
+    @if ($attributes->has('class'))
+        <div>Class attribute is present</div>
+    @endif
+
+You may retrieve a specific attribute's value using the `get` method:
+
+    {{ $attributes->get('class') }}
 
 <a name="slots"></a>
 ### Slots
